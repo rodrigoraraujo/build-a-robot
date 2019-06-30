@@ -1,45 +1,64 @@
 <template>
-  <div>
+  <div class="content">
+    <button class="add-to-cart" @click="addToCart()">Add to Cart</button>
     <div class="top-row">
-      <div class="top part">
+      <div class="top part" :class="[headBorderStyle]">
         <div class="robot-name">
           {{selectPart.head.title}}
           <span v-if="selectPart.head.onSale" class="sale">Sale!</span>
         </div>
-        <img :src="selectPart.head.src" title="head">
+        <img :src="selectPart.head.src" title="head" />
         <button @click="selectPreviousHead" class="prev-selector">&#9668;</button>
         <button @click="selectNextHead" class="next-selector">&#9658;</button>
       </div>
     </div>
     <div class="middle-row">
       <div class="left part">
-        <img :src="selectPart.rightArm.src" title="arms">
+        <img :src="selectPart.rightArm.src" title="arms" />
         <button @click="selectPreviousRightArm" class="prev-selector">&#9650;</button>
         <button @click="selectNexRigthtArm" class="next-selector">&#9660;</button>
       </div>
       <div class="center part">
-        <img :src="selectPart.torso.src" title="torsos">
+        <img :src="selectPart.torso.src" title="torsos" />
         <button @click="selectPreviousTorso" class="prev-selector">&#9668;</button>
         <button @click="selectNextTorso" class="next-selector">&#9658;</button>
       </div>
       <div class="right part">
-        <img :src="selectPart.leftArm.src" title="arms">
+        <img :src="selectPart.leftArm.src" title="arms" />
         <button @click="selectPreviousLeftArm" class="prev-selector">&#9650;</button>
         <button @click="selectNextLeftArm" class="next-selector">&#9660;</button>
       </div>
     </div>
     <div class="bottom-row">
       <div class="bottom part">
-        <img :src="selectPart.base.src" title="bases">
+        <img :src="selectPart.base.src" title="bases" />
         <button @click="selectPreviousBase" class="prev-selector">&#9668;</button>
         <button @click="selectNextBase" class="next-selector">&#9658;</button>
       </div>
+    </div>
+    <div>
+      <h1>Cart</h1>
+      <table>
+        <thead>
+          <tr>
+            <th>Robot</th>
+            <th class="cost">Cost</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(robot, index) in cart" :key="index">
+            <td>{{robot.head.title}}</td>
+            <td class="cost">{{robot.cost}}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </template>
 
 <script>
 import availableParts from "../data/parts";
+import { mixCreated } from "./created-hook-mixin";
 
 function getPreviousValidIndex(index, length) {
   const deprecatedIndex = index - 1;
@@ -56,6 +75,7 @@ export default {
   data() {
     return {
       availableParts,
+      cart: [],
       selectedHeadIndex: 0,
       selectedRightArmIndex: 0,
       selectedTorsoIndex: 0,
@@ -63,7 +83,11 @@ export default {
       selectedBaseIndex: 0
     };
   },
+  mixins: [mixCreated],
   computed: {
+    headBorderStyle() {
+      return this.selectPart.head.onSale ? "sale-border" : "";
+    },
     selectPart() {
       return {
         head: availableParts.heads[this.selectedHeadIndex],
@@ -75,6 +99,17 @@ export default {
     }
   },
   methods: {
+    addToCart() {
+      const robot = this.selectPart;
+      const cost =
+        robot.head.cost +
+        robot.leftArm.cost +
+        robot.torso.cost +
+        robot.rightArm.cost +
+        robot.base.cost;
+
+      this.cart.push(Object.assign({}, robot, { cost }));
+    },
     selectNextHead() {
       this.selectedHeadIndex = getNextValidIndex(
         this.selectedHeadIndex,
@@ -139,16 +174,18 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
 .part {
   position: relative;
   width: 165px;
   height: 165px;
   border: 3px solid #aaa;
+
+  img {
+    width: 165px;
+  }
 }
-.part img {
-  width: 165px;
-}
+
 .top-row {
   display: flex;
   justify-content: space-around;
@@ -239,5 +276,37 @@ export default {
 
 .sale {
   color: red;
+}
+
+.content {
+  position: relative;
+}
+
+.add-to-cart {
+  position: absolute;
+  right: 30px;
+  width: 220px;
+  padding: 3px;
+  font-size: 16px;
+}
+
+h1 {
+  text-align: left;
+}
+
+td,
+th {
+  text-align: left;
+  padding: 5px;
+  padding-right: 20px;
+}
+
+.cost {
+  text-align: right;
+}
+
+$border-color: red;
+.sale-border {
+  border: 3px solid $border-color;
 }
 </style>
