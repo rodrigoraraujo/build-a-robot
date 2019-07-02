@@ -8,7 +8,6 @@
 </template>
 
 <script>
-import { StringDecoder } from "string_decoder";
 function getPreviousValidIndex(index, length) {
   const deprecatedIndex = index - 1;
   return deprecatedIndex < 0 ? length - 1 : deprecatedIndex;
@@ -36,12 +35,21 @@ export default {
   data() {
     return { selectedPartIndex: 0 };
   },
+  created() {
+    this.emitSelectedPart();
+  },
+  updated() {
+    this.emitSelectedPart();
+  },
   computed: {
     selectedPart() {
       return this.parts[this.selectedPartIndex];
     }
   },
   methods: {
+    emitSelectedPart() {
+      this.$emit("partSelected", this.selectedPart);
+    },
     selectNextPart() {
       this.selectedPartIndex = getNextValidIndex(
         this.selectedPartIndex,
