@@ -150,7 +150,8 @@ const parts = {
 			title: 'Spring',
 			src: images('./base-spring.png'),
 			type: 'bases',
-			cost: 1190.5
+			cost: 1190.5,
+			onSale: true
 		},
 		{
 			id: 5,

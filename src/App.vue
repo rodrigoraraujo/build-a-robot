@@ -4,39 +4,48 @@
       <nav>
         <ul>
           <li class="nav-item">
-            <img src="./assets/build-a-bot-logo.png" class="logo" />
-            Build-a-Bot
+            <router-link :to="{name: 'Home'}" class="nav-link" exact>
+              <img src="./assets/build-a-bot-logo.png" class="logo" />
+              Build-a-Bot
+            </router-link>
+          </li>
+          <li class="nav-item" exact>
+            <router-link :to="{name: 'Build'}" class="nav-link">Build</router-link>
+          </li>
+          <li class="nav-item" exact>
+            <router-link :to="{name: 'BrowseParts'}" class="nav-link">Browse</router-link>
           </li>
         </ul>
       </nav>
     </header>
-    <main>
-      <RobotBuilder />
-    </main>
+    <div class="container">
+      <aside class="aside">
+        <router-view name="sidebar" />
+      </aside>
+      <main>
+        <router-view />
+      </main>
+    </div>
   </div>
 </template>
 
 <script>
-import RobotBuilder from "./build/RobotBuilder.vue";
-
 export default {
-  name: "app",
-  components: {
-    RobotBuilder
-  }
+  name: "app"
 };
 </script>
 
 <style>
 header {
   background-color: #999;
-  margin: 0 200px;
+  margin: auto 120px auto 120px;
   border-radius: 10px;
 }
 
 ul {
   padding: 3px;
   display: flex;
+  width: 100%;
 }
 .nav-item {
   display: inline-block;
@@ -55,7 +64,7 @@ body {
 }
 
 nav {
-  widows: 100%;
+  width: 100%;
 }
 </style>
 
@@ -63,15 +72,38 @@ nav {
 main {
   padding: 30px;
   background-color: white;
-  margin: 0 200px;
-  border-radius: 10px;
+  border-radius: 0 10px 10px 0;
+  width: 964px;
+  min-height: 300px;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: inherit;
 }
 
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: #2c3e50;
+}
+
+.router-link-active {
+  color: white;
+}
+
+.container {
+  display: flex;
+  margin: 10px auto 0 auto;
+  justify-content: center;
+}
+
+.aside {
+  padding: 30px;
+  background-color: #aaa;
+  width: 100px;
+  min-height: 300px;
+  border-radius: 10px 0 0 10px;
 }
 </style>
