@@ -1,5 +1,5 @@
 <template>
-  <div class="content">
+  <div v-if="availableParts" class="content">
     <div class="preview">
       <CollapsibleSection>
         <div class="preview-content">
@@ -49,28 +49,10 @@
         @partSelected="part => selectPart.base = part"
       />
     </div>
-    <div>
-      <h1>Cart</h1>
-      <table>
-        <thead>
-          <tr>
-            <th>Robot</th>
-            <th class="cost">Cost</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(robot, index) in cart" :key="index">
-            <td>{{robot.head.title}}</td>
-            <td class="cost">{{robot.cost}}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
   </div>
 </template>
 
 <script>
-import availableParts from "../data/parts";
 import { mixCreated } from "./created-hook-mixin";
 import PartSelector from "./PartSelector";
 import CollapsibleSection from "../shared/CollapsibleSection";
@@ -87,10 +69,12 @@ export default {
       next(response);
     }
   },
+  created() {
+    this.$store.dispatch("getParts");
+  },
   components: { PartSelector, CollapsibleSection },
   data() {
     return {
-      availableParts,
       addedToCart: false,
       cart: [],
       selectPart: {
@@ -106,6 +90,9 @@ export default {
   computed: {
     headBorderStyle() {
       return this.selectPart.head.onSale ? "sale-border" : "";
+    },
+    availableParts() {
+      return this.$store.state.parts;
     }
   },
   methods: {
@@ -118,7 +105,8 @@ export default {
         robot.rightArm.cost +
         robot.base.cost;
 
-      this.cart.push(Object.assign({}, robot, { cost }));
+      this.$store.commit("addRobotToCart", Object.assign({}, robot, { cost }));
+
       this.addedToCart = true;
     }
   }

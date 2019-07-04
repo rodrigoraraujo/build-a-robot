@@ -9,11 +9,15 @@
               Build-a-Bot
             </router-link>
           </li>
-          <li class="nav-item" exact>
-            <router-link :to="{name: 'Build'}" class="nav-link">Build</router-link>
+          <li class="nav-item">
+            <router-link :to="{name: 'Build'}" class="nav-link" exact>Build</router-link>
           </li>
-          <li class="nav-item" exact>
-            <router-link :to="{name: 'BrowseParts'}" class="nav-link">Browse</router-link>
+          <li class="nav-item">
+            <router-link :to="{name: 'BrowseParts'}" class="nav-link" exact>Browse</router-link>
+          </li>
+          <li class="nav-item cart">
+            <router-link :to="{name: 'Cart'}" class="nav-link" exact>Cart</router-link>
+            <div class="cart-items">{{cart.length}}</div>
           </li>
         </ul>
       </nav>
@@ -31,7 +35,12 @@
 
 <script>
 export default {
-  name: "app"
+  name: "app",
+  computed: {
+    cart() {
+      return this.$store.state.cart;
+    }
+  }
 };
 </script>
 
@@ -52,6 +61,11 @@ ul {
   padding: 5px 10px;
   font-size: 22px;
   border-right: 1px solid #bbb;
+}
+.nav-item.cart {
+  position: relative;
+  margin-left: auto;
+  border-right: none;
 }
 .logo {
   vertical-align: middle;
@@ -105,5 +119,16 @@ main {
   width: 100px;
   min-height: 300px;
   border-radius: 10px 0 0 10px;
+}
+
+.cart-items {
+  position: absolute;
+  top: -7px;
+  right: -5px;
+  font-size: 18px;
+  width: 20px;
+  text-align: center;
+  border-radius: 10px;
+  background-color: mediumseagreen;
 }
 </style>

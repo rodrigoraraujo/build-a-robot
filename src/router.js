@@ -1,15 +1,16 @@
 import Vue from 'vue';
 import VueRouter from 'vue-router';
-import Home from '../home/Home';
-import RobotBuilder from '../build/RobotBuilder.vue';
-import PartInfo from '../parts/PartInfo.vue';
-import BrowseParts from '../parts/BrowseParts';
-import RobotArms from '../parts/RobotArms';
-import RobotBases from '../parts/RobotBases';
-import RobotHeads from '../parts/RobotHeads';
-import RobotTorsos from '../parts/RobotTorsos';
-import SidebarStandard from '../sidebar/SidebarStandard';
-import SidebarBuild from '../sidebar/SidebarBuild';
+import Home from './home/Home';
+import RobotBuilder from './build/RobotBuilder.vue';
+import PartInfo from './parts/PartInfo.vue';
+import BrowseParts from './parts/BrowseParts';
+import RobotArms from './parts/RobotArms';
+import RobotBases from './parts/RobotBases';
+import RobotHeads from './parts/RobotHeads';
+import RobotTorsos from './parts/RobotTorsos';
+import SidebarStandard from './sidebar/SidebarStandard';
+import SidebarBuild from './sidebar/SidebarBuild';
+import ShoppingCart from './cart/ShoppingCart.vue';
 
 Vue.use(VueRouter);
 
@@ -67,6 +68,11 @@ const routes = [
 			const isValidId = Number.isInteger(Number(to.params.id));
 			next(isValidId);
 		}
+	},
+	{
+		path: '/cart',
+		name: 'Cart',
+		component: ShoppingCart
 	}
 ];
 
