@@ -59,18 +59,20 @@ import CollapsibleSection from "../shared/CollapsibleSection";
 
 export default {
   name: "RobotBuilder",
-  beforeRouteLeave(to, from, next) {
-    if (this.addedToCart) {
-      next(true);
-    } else {
-      const response = confirm(
-        "You have not added your robot to your cart, are you sure you want to leave?"
-      );
-      next(response);
-    }
-  },
+  // beforeRouteLeave(to, from, next) {
+  //   next(true);
+  //   return;
+  //   if (this.addedToCart) {
+  //     next(true);
+  //   } else {
+  //     const response = confirm(
+  //       "You have not added your robot to your cart, are you sure you want to leave?"
+  //     );
+  //     next(response);
+  //   }
+  // },
   created() {
-    this.$store.dispatch("getParts");
+    this.$store.dispatch("robots/getParts");
   },
   components: { PartSelector, CollapsibleSection },
   data() {
@@ -92,7 +94,7 @@ export default {
       return this.selectPart.head.onSale ? "sale-border" : "";
     },
     availableParts() {
-      return this.$store.state.parts;
+      return this.$store.state.robots.parts;
     }
   },
   methods: {
@@ -104,8 +106,9 @@ export default {
         robot.torso.cost +
         robot.rightArm.cost +
         robot.base.cost;
-
-      this.$store.commit("addRobotToCart", Object.assign({}, robot, { cost }));
+      this.$store
+        .dispatch("robots/addRobotToCart", Object.assign({}, robot, { cost }))
+        .then(() => this.$router.push("/cart"));
 
       this.addedToCart = true;
     }
@@ -133,6 +136,7 @@ export default {
   display: flex;
   justify-content: center;
 }
+
 .bottom-row {
   display: flex;
   justify-content: space-around;

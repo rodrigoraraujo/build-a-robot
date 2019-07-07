@@ -38,7 +38,7 @@ export default {
   name: "app",
   computed: {
     cart() {
-      return this.$store.state.cart;
+      return this.$store.state.robots.cart;
     }
   }
 };
@@ -47,7 +47,8 @@ export default {
 <style>
 header {
   background-color: #999;
-  margin: auto 120px auto 120px;
+  margin: auto;
+  width: 100%;
   border-radius: 10px;
 }
 
@@ -87,7 +88,7 @@ main {
   padding: 30px;
   background-color: white;
   border-radius: 0 10px 10px 0;
-  width: 964px;
+  width: 100%;
   min-height: 300px;
 }
 
