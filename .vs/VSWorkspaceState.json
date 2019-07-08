@@ -1,9 +1,5 @@
 {
-  "ExpandedNodes": [
-    "",
-    "\\src",
-    "\\src\\plugins"
-  ],
-  "SelectedNode": "\\src\\plugins\\axios.js",
-  "PreviewInSolutionExplorer": false
+	"ExpandedNodes": [ "", "\\src" ],
+	"SelectedNode": "\\src\\store.js",
+	"PreviewInSolutionExplorer": false
 }
