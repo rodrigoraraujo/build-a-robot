@@ -3,14 +3,19 @@ import axios from 'axios';
 export default {
 	namespaced: true,
 	state: {
-		user: null
+		user: null,
+		foo: 'users-foo'
 	},
 	mutations: {
 		updateCurrentUser(state, user) {
 			state.user = user;
 		}
 	},
-	getters: {},
+	getters: {
+		foo: (state) => {
+			return `users-getter/${state.foo}`;
+		}
+	},
 	actions: {
 		signIn({ commit }) {
 			/* eslint-disable */

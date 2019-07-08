@@ -41,7 +41,7 @@ export default {
       return this.$store.state.robots.cart;
     },
     saleItems() {
-      return this.$store.getters.saleItems;
+      return this.$store.getters['robots/saleItems'];
     }
   }
 };
